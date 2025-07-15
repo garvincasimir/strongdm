@@ -1,3 +1,5 @@
+# Go version is managed centrally via .go-version file
+# Update .go-version, go.mod, and this Dockerfile to maintain consistency
 # Build stage
 FROM --platform=$BUILDPLATFORM golang:1.21-alpine AS builder
 
@@ -25,7 +27,7 @@ RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -installsuffix c
 # Final stage
 FROM scratch
 
-# Copy ca-certificates from builder
+# Copy ca-certificates
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Copy the binary
