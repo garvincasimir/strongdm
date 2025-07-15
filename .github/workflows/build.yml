@@ -55,7 +55,7 @@ jobs:
       with:
         images: ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}
         tags: |
-          type=ref,event=branch
+          type=sha,prefix={{branch}}-
           type=sha
     
     - name: Extract Go version from go.mod
