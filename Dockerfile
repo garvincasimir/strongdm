@@ -7,7 +7,7 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /app
 
 # Copy go mod files
-COPY go.mod go.sum ./
+COPY go.mod ./
 
 # Download dependencies
 RUN go mod download
