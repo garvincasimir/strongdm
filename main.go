@@ -23,10 +23,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"strongdm/handler"
 )
 
 func main() {
 	bindAddr := os.Getenv("BIND_ADDR")
 	log.Println("Listening on " + bindAddr)
-	log.Fatal(http.ListenAndServe(bindAddr, http.HandlerFunc(HandleRequest)))
+
+	h := handler.New()
+	log.Fatal(http.ListenAndServe(bindAddr, http.HandlerFunc(h.HandleRequest)))
 }

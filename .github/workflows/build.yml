@@ -15,7 +15,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version-file: '.go-version'
+        go-version-file: 'go.mod'
     
     - name: Download dependencies
       run: go mod download
@@ -58,6 +58,12 @@ jobs:
           type=ref,event=branch
           type=sha
     
+    - name: Extract Go version from go.mod
+      id: go-version
+      run: |
+        GO_VERSION=$(grep '^go ' go.mod | awk '{print $2}')
+        echo "version=$GO_VERSION" >> $GITHUB_OUTPUT
+    
     - name: Build and push multiplatform Docker image to ECR
       uses: docker/build-push-action@v5
       with:
@@ -66,4 +72,6 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: linux/amd64,linux/arm64
+        build-args: |
+          GO_VERSION=${{ steps.go-version.outputs.version }}
 
