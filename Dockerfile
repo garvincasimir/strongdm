@@ -23,7 +23,7 @@ ARG TARGETARCH
 RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -installsuffix cgo -ldflags='-w -s' -o strongdm .
 
 # Final stage
-FROM --platform=$TARGETPLATFORM scratch
+FROM scratch
 
 # Copy ca-certificates from builder
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
